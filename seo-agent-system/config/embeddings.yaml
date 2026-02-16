@@ -1,0 +1,123 @@
+embeddings:
+  # Voyage AI - Embeddings spécialisés
+  voyage-4:
+    provider: "voyageai"
+    model: "voyage-4"
+    dimensions: 1024
+    use_cases:
+      - content_optimization
+      - semantic_search
+      - design_analysis
+      - link_building
+    agents:
+      - content
+      - design
+      - link_building
+    performance:
+      avg_latency_ms: 50
+      cost_per_1k_tokens: 0.0001
+  
+  finance-2:
+    provider: "voyageai"
+    model: "voyage-finance-2"
+    dimensions: 1024
+    use_cases:
+      - roi_analysis
+      - budget_optimization
+      - cost_tracking
+      - revenue_forecasting
+    agents:
+      - analytics
+    performance:
+      avg_latency_ms: 45
+      cost_per_1k_tokens: 0.00012
+  
+  code-3:
+    provider: "voyageai"
+    model: "voyage-code-3"
+    dimensions: 1024
+    use_cases:
+      - technical_seo
+      - code_analysis
+      - schema_generation
+      - crawl_optimization
+    agents:
+      - technical
+    performance:
+      avg_latency_ms: 55
+      cost_per_1k_tokens: 0.00011
+
+# Configuration RAG Hybride
+rag_config:
+  # Loi #1: Hiérarchie de recherche
+  search_hierarchy:
+    - local_memory  # 70% sémantique + 30% texte
+    - internal_docs
+    - web_search  # Dernier recours
+  
+  # Poids de recherche hybride
+  hybrid_weights:
+    semantic: 0.7   # Voyage AI embeddings
+    text: 0.3       # BM25
+  
+  # Cache et mémoire locale
+  local_cache:
+    enabled: true
+    ttl_hours: 24
+    max_size_mb: 500
+  
+  # Loi #4: Re-calcul conditionnel
+  sync_policy:
+    interval_hours: 1
+    trigger_on_modification: true
+    active_code_threshold_commits_per_day: 50
+    skip_embedding_for_active_code: true
+  
+  # Réduction d'appels API
+  optimization:
+    target_api_reduction_percent: 80
+    cache_hit_target_percent: 75
+
+# Configuration par domaine
+domain_configs:
+  content:
+    embedding: "voyage-4"
+    chunk_size: 512
+    overlap: 50
+    similarity_threshold: 0.75
+  
+  design:
+    embedding: "voyage-4"
+    chunk_size: 256
+    overlap: 30
+    similarity_threshold: 0.70
+  
+  technical:
+    embedding: "code-3"
+    chunk_size: 1024
+    overlap: 100
+    similarity_threshold: 0.80
+    git_integration:
+      enabled: true
+      real_time_access: true
+      skip_embedding: true
+  
+  link_building:
+    embedding: "voyage-4"
+    chunk_size: 512
+    overlap: 50
+    similarity_threshold: 0.72
+  
+  analytics:
+    embedding: "finance-2"
+    chunk_size: 256
+    overlap: 25
+    similarity_threshold: 0.85
+
+# Voyage AI API Configuration
+voyageai:
+  api_base: "https://api.voyageai.com/v1"
+  timeout: 30
+  retry_attempts: 3
+  batch_size: 100
+  rate_limit_per_minute: 300

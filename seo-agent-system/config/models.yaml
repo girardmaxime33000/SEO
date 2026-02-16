@@ -1,0 +1,132 @@
+models:
+  # Niveau 1 - Infrastructure
+  devops:
+    model: "claude-4.6"
+    provider: "anthropic"
+    role: "DevOps/Infrastructure"
+    max_tokens: 8000
+    temperature: 0.1
+    capabilities:
+      - orchestration
+      - monitoring
+      - deployment
+      - resource_management
+  
+  # Niveau 2 - Management
+  manager:
+    model: "glm-5"
+    provider: "zhipu"
+    role: "SEO Manager"
+    max_tokens: 4000
+    temperature: 0.3
+    capabilities:
+      - strategy
+      - coordination
+      - reporting
+      - decision_making
+    reports_to: "devops"
+  
+  # Niveau 3 - Agents Spécialisés (Kimi K2.5)
+  agents:
+    content:
+      model: "k2.5"
+      provider: "moonshot"
+      role: "Content SEO Agent"
+      max_tokens: 2000
+      temperature: 0.7
+      embedding: "voyage-4"
+      capabilities:
+        - content_optimization
+        - keyword_research
+        - meta_descriptions
+        - title_tags
+      reports_to: "manager"
+      channel: "content"
+    
+    design:
+      model: "k2.5"
+      provider: "moonshot"
+      role: "Design Agent"
+      max_tokens: 2000
+      temperature: 0.6
+      embedding: "voyage-4"
+      capabilities:
+        - ux_optimization
+        - core_web_vitals
+        - mobile_optimization
+        - accessibility
+      reports_to: "manager"
+      channel: "design"
+    
+    technical:
+      model: "k2.5"
+      provider: "moonshot"
+      role: "Technical SEO Agent"
+      max_tokens: 2000
+      temperature: 0.2
+      embedding: "code-3"
+      capabilities:
+        - schema_markup
+        - robots_txt
+        - sitemap_generation
+        - crawl_optimization
+      reports_to: "manager"
+      channel: "technical"
+    
+    link_building:
+      model: "k2.5"
+      provider: "moonshot"
+      role: "Link Building Agent"
+      max_tokens: 2000
+      temperature: 0.5
+      embedding: "voyage-4"
+      capabilities:
+        - backlink_analysis
+        - outreach
+        - content_partnerships
+        - link_quality_audit
+      reports_to: "manager"
+      channel: "link_building"
+    
+    analytics:
+      model: "k2.5"
+      provider: "moonshot"
+      role: "Analytics Agent"
+      max_tokens: 2000
+      temperature: 0.1
+      embedding: "finance-2"
+      capabilities:
+        - roi_tracking
+        - performance_metrics
+        - conversion_analysis
+        - budget_optimization
+      reports_to: "manager"
+      channel: "analytics"
+
+# Configuration API
+api_config:
+  anthropic:
+    base_url: "https://api.anthropic.com/v1"
+    timeout: 60
+  
+  zhipu:
+    base_url: "https://open.bigmodel.cn/api/paas/v4"
+    timeout: 30
+  
+  moonshot:
+    base_url: "https://api.moonshot.cn/v1"
+    timeout: 30
+
+# Limites et quotas
+rate_limits:
+  devops:
+    requests_per_minute: 60
+    max_concurrent: 10
+  
+  manager:
+    requests_per_minute: 100
+    max_concurrent: 5
+  
+  agents:
+    requests_per_minute: 150
+    max_concurrent: 3
